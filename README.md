@@ -1,12 +1,12 @@
 # Ansible_vSRX
 Proof of Concept Demonstration of Ansible deployment to a Juniper vSRX VM using NetCONF/SSH.  The example configuration includes:
 
-Adding a new address book entry for newhost with ip x.x.x.x/32
-Adding a new application with name newservice port tcp/1234
+Adding a new address book entry for newhost with ip x.x.x.x/32.
+Adding a new application with name newservice port tcp/1234.
 Add new policy from  any on VLAN1 (untrusted) to VLAN2 (trusted) for newservice on newhost.
 
 ## Environment
-If you already have a vSRX VM working, then you don't have to use the following setup.  You'll just need to update the Ansible inventory with the appropriate attributes of your VM.
+If you already have a vSRX VM working, then you don't have to use the following setup.  You'll just need to add the junos-eznc package, add python 2.7 (if not already installed) and update the Ansible inventory and playbook with the appropriate attributes of your VM.
 
 The vSRX VM (actually a Juniper Firefly Perimeter (rebranded to SRX) version 12.1X47-D15.4) is provisioned through the instructions available at [Barnesry's Junos_RPM project](https://synackattack.wordpress.com/author/barnesry/).  Downloading a recent [vSRX](https://www.juniper.net/us/en/dm/free-vsrx-trial/) would have been preferable, but these are restricted to existing Juniper customers, partners, or those who's email address indicates a good sales opportunity.
 
@@ -77,3 +77,6 @@ vagrant ssh vsrx
 
 ## Ansible Playbook Deployment
 
+At this point you can run the Ansible playbook with the following command:
+
+ansible-playbook -i [path to inventory]/vagrant_ansible_inventory [path to playbook]/playbook-deploy-entries.yaml
