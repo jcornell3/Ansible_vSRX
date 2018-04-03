@@ -2,7 +2,9 @@
 Proof of Concept Demonstration of Ansible deployment to a Juniper vSRX VM using NetCONF/SSH.  The example configuration includes:
 
 Adding a new address book entry for newhost with ip x.x.x.x/32.
+
 Adding a new application with name newservice port tcp/1234.
+
 Add new policy from  any on VLAN1 (untrusted) to VLAN2 (trusted) for newservice on newhost.
 
 ## Environment
