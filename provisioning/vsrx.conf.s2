@@ -1,0 +1,39 @@
+security {
+    address-book {
+        entry {
+            address newhost 192.168.1.15/32;
+        }
+    }
+    policies {
+        from-zone VLAN2 to-zone VLAN1 {
+            policy permit-all {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application any;
+                }
+                then {                  
+                    permit;             
+                }                       
+            }                           
+        }                               
+        from-zone VLAN1 to-zone VLAN2 { 
+            policy hosted-apps {        
+                match {                 
+                    source-address any; 
+                    destination-address newhost;
+                    application newservice;
+                }                       
+                then {                  
+                    permit;             
+                }                       
+            }                           
+        }                               
+    }             
+}
+applications {
+    application newservice {
+        protocol tcp;
+        destination-port 1234;
+    }
+}
