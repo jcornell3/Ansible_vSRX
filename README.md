@@ -1,7 +1,7 @@
 # Ansible_vSRX
 Proof of Concept Demonstration of Ansible deployment to a Juniper vSRX VM using NetCONF/SSH.  The example configuration includes:
 
-Adding a new address book entry for newhost with ip x.x.x.x/32.
+Adding a new address book entry for newhost with ip x.x.x.x/32. I've used a local address of 192.168.1.15/32 in this example.
 
 Adding a new application with name newservice port tcp/1234.
 
@@ -71,7 +71,7 @@ ansible 2.5.0
 
 Once you've completed this setup, you can just perform a 'vagrant up' to provision the environment
 
-We'll boot the vSRX using Vagrant, and configure it using Ansible. RPM configuration will already be present (and working!) if you have internet access. You can jump on the firewall using the following command.
+We'll boot the vSRX using Vagrant, and configure it using Ansible. The vSRX configuration will already be present (and working!) if you have internet access. You can jump on the firewall using the following command.
 
 ```
 vagrant ssh vsrx
@@ -79,6 +79,92 @@ vagrant ssh vsrx
 
 ## Ansible Playbook Deployment
 
-At this point you can run the Ansible playbook with the following command:
+At this point you can run the Ansible playbook with the following command, which references the configuration file [vsrx.conf.s2](https://github.com/jcornell3/Ansible_vSRX/blob/master/provisioning/vsrx.conf.s2) to be pushed to the vSRX:
 
 ansible-playbook -i [path to inventory]/vagrant_ansible_inventory [path to playbook]/playbook-deploy-entries.yaml
+
+The result should look like the following:
+
+```
+ [WARNING]: Found both group and host with same name: vsrx
+
+
+PLAY [Generate and Deploy Service Access Configuration to vsrx gateway] *********************************************************************
+
+TASK [deploy service access config] *********************************************************************************************************
+ok: [vsrx]
+
+TASK [Display all variables/facts known for a host] *****************************************************************************************
+ok: [vsrx] => {
+    "hostvars[inventory_hostname]": {
+        "ansible_check_mode": false,
+        "ansible_diff_mode": false,
+        "ansible_facts": {},
+        "ansible_forks": 5,
+        "ansible_host": "127.0.0.1",
+        "ansible_inventory_sources": [
+            "/Users/john/vsrx/Ansible_vSRX/provisioning/inventory/vagrant_ansible_inventory"
+        ],
+        "ansible_playbook_python": "/usr/local/opt/python/bin/python3.6",
+        "ansible_port": 2200,
+        "ansible_run_tags": [
+            "all"
+        ],
+        "ansible_skip_tags": [],
+        "ansible_ssh_private_key_file": "/Users/john/.vagrant.d/insecure_private_key",
+        "ansible_user": "vagrant",
+        "ansible_version": {
+            "full": "2.5.0",
+            "major": 2,
+            "minor": 5,
+            "revision": 0,
+            "string": "2.5.0"
+        },
+        "group_names": [
+            "ungrouped"
+        ],
+        "groups": {
+            "all": [
+                "ubuntu-monitoring",
+                "vsrx"
+            ],
+            "ungrouped": [
+                "ubuntu-monitoring",
+                "vsrx"
+            ],
+            "vsrx": []
+        },
+        "host": {
+            "loopback": {
+                "ip": "192.168.0.1"
+            }
+        },
+        "interfaces": [
+            {
+                "description": "to_vboxnet0_mangement",
+                "ip": "192.168.56.107",
+                "name": "ge-0/0/1"
+            }
+        ],
+        "inventory_dir": "/Users/john/vsrx/Ansible_vSRX/provisioning/inventory",
+        "inventory_file": "/Users/john/vsrx/Ansible_vSRX/provisioning/inventory/vagrant_ansible_inventory",
+        "inventory_hostname": "vsrx",
+        "inventory_hostname_short": "vsrx",
+        "omit": "__omit_place_holder__e1b09e490219d2f22956ba7228a0e2088a83421e",
+        "playbook_dir": "/Users/john/vsrx/Ansible_vSRX/provisioning"
+    }
+}
+[DEPRECATION WARNING]: junos_install_config is kept for backwards compatibility but usage is discouraged. The module documentation details 
+page may explain more about this rationale.. This feature will be removed in a future release. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+
+TASK [Deploy config to device ... please wait] **********************************************************************************************
+ok: [vsrx]
+
+TASK [Checking NETCONF connectivity] ********************************************************************************************************
+ok: [vsrx]
+
+PLAY RECAP **********************************************************************************************************************************
+vsrx                       : ok=4    changed=0    unreachable=0    failed=0   
+
+```
