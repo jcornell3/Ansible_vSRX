@@ -10,6 +10,8 @@ Add new policy from  any on VLAN1 (untrusted) to VLAN2 (trusted) for newservice 
 ## Environment
 If you already have a vSRX VM working, then you don't have to use the following setup.  You'll just need to add the junos-eznc package, add python 2.7 (if not already installed) and update the Ansible inventory and playbook with the appropriate attributes of your VM.
 
+Juniper has documented the [Ansible-with-Junos-OS](https://github.com/Juniper/Intro-to-Using-Ansible-with-Junos-OS/wiki) on GitHub
+
 The vSRX VM (actually a Juniper Firefly Perimeter (rebranded to SRX) version 12.1X47-D15.4) is provisioned through the instructions available at [Barnesry's Junos_RPM project](https://synackattack.wordpress.com/author/barnesry/).  Downloading a recent [vSRX](https://www.juniper.net/us/en/dm/free-vsrx-trial/) would have been preferable, but these are restricted to existing Juniper customers, partners, or those who's email address indicates a good sales opportunity.
 
 Running in a virtualenv on a OS/X 10.13.3, I installed the following components:
@@ -168,3 +170,9 @@ PLAY RECAP *********************************************************************
 vsrx                       : ok=4    changed=0    unreachable=0    failed=0   
 
 ```
+
+## To Do
+
+Develop a Python wrapper to auto-generate the vsrx.conf.x configuration file.
+
+Delelop a Web & REST interface for authenticated users to invoke the Ansible playbook.
